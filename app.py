@@ -18,12 +18,12 @@ st.set_page_config(
 )
 
 CLASSES = [
-    "buildings",
-    "forest",
-    "glacier",
-    "mountain",
-    "sea",
-    "street"
+    "edifícios",
+    "floresta",
+    "geleira",
+    "montanha",
+    "mar",
+    "rua"
 ]
 
 MODEL_PATH = "resnet_best_model.pth"
