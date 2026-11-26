@@ -1,4 +1,5 @@
 
+
 import streamlit as st
 import torch
 import torch.nn as nn
@@ -12,18 +13,18 @@ from PIL import Image
 # --------------------------------------------------
 
 st.set_page_config(
-    page_title="Classificador de Imagens",
+    page_title="ResNet-18 Image Classifier",
     page_icon="🏞️",
     layout="centered"
 )
 
 CLASSES = [
-    "edifícios",
-    "floresta",
-    "geleira",
-    "montanha",
-    "mar",
-    "rua"
+    "buildings",
+    "forest",
+    "glacier",
+    "mountain",
+    "sea",
+    "street"
 ]
 
 MODEL_PATH = "resnet_best_model.pth"
@@ -70,15 +71,15 @@ transform = transforms.Compose([
 # 4. Application interface
 # --------------------------------------------------
 
-st.title("🏞️ Classificador de Imagens")
+st.title("🏞️ ResNet-18 Image Classifier")
 
 st.write(
-    "Envie uma imagem para classificá-la utilizando "
-    "uma rede neural ResNet-18."
+    "Upload an image to classify it using "
+    "a ResNet-18 convolutional neural network."
 )
 
 uploaded_file = st.file_uploader(
-    "Selecione uma imagem",
+    "Choose an image",
     type=["jpg", "jpeg", "png"]
 )
 
@@ -88,7 +89,7 @@ if uploaded_file is not None:
 
     st.image(
         image,
-        caption="Imagem enviada",
+        caption="Uploaded image",
         width="stretch"
     )
 
@@ -114,14 +115,14 @@ if uploaded_file is not None:
 
     st.divider()
 
-    st.subheader("Resultado da classificação")
+    st.subheader("Classification Result")
 
     st.success(
-        f"Categoria prevista: {predicted_class.upper()}"
+        f"Predicted class: {predicted_class.upper()}"
     )
 
     st.metric(
-        label="Pontuação da classe prevista",
+        label="Predicted Class Score",
         value=f"{confidence:.2f}%"
     )
 
@@ -130,14 +131,13 @@ if uploaded_file is not None:
 
     if difference < 10:
         st.warning(
-            "Classificação potencialmente ambígua: "
-            "as duas categorias principais apresentam "
-            "pontuações semelhantes."
+            "Potentially ambiguous classification: "
+            "the two top classes have similar scores."
         )
 
     st.divider()
 
-    st.subheader("Pontuações por categoria")
+    st.subheader("Class Scores")
 
     for class_name, score in results:
 
@@ -145,6 +145,6 @@ if uploaded_file is not None:
         st.progress(score / 100)
 
     st.caption(
-        "As pontuações representam valores obtidos pelo "
-        "softmax e não são probabilidades calibradas."
+        "Scores represent softmax outputs and are not "
+        "calibrated probabilities."
     )
